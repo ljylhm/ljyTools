@@ -1,0 +1,26 @@
+{
+  "name": "ljytools",
+  "version": "0.0.2",
+  "description": "JS的常用方法",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ljylhm/ljyTools.git"
+  },
+  "keywords": [
+    "js",
+    "封装方法"
+  ],
+  "author": "liang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ljylhm/ljyTools/issues"
+  },
+  "homepage": "https://github.com/ljylhm/ljyTools#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
