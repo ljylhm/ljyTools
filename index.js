@@ -40,7 +40,7 @@ var helper = {
      * @returns boolean 被检测的数据类型 
      */
 
-    isBoolean: function (bol: boolean) { // 检查是否为布尔类型
+    isBoolean: function (bol) { // 检查是否为布尔类型
         return this.getDataType(bol) == "Boolean";
     },
 
@@ -50,7 +50,7 @@ var helper = {
      * @returns 检查是否为字符串类型
      */
 
-    isString: function (str: String) {
+    isString: function (str) {
         return this.getDataType(str) == "String";
     },
 
@@ -72,7 +72,7 @@ var helper = {
      * 这个事件不能检测到 这个方法以后会做兼容
     */
 
-    isEmptyObject: function (obj: Object) {
+    isEmptyObject: function (obj) {
         if (this.getDataType(obj) == "Arguments") {
             if (obj.length <= 0) return true;
             else return false
@@ -106,15 +106,26 @@ var helper = {
      * @param {String} value
      */
 
-    sessionSet: function (name: String, value: String) {
+    sessionSet: function (name, value) {
         if (!this.argCheck(name, value)) return;
         sessionStorage.setItem(name, value);
     },
+
+    /**
+     * @description 得到sessionStorage的值
+     * @param {String} name
+     * @returns {String}
+     */
 
     sessionGet: function (name) {
         if (!this.argCheck(name)) return window.sessionStorage;
         return sessionStorage.getItem(name);
     },
+
+    /**
+    * @description 清除sessionStorage
+    * @param {String} name
+    */
 
     sessionClear: function (name) {
         var sessionJson = window.sessionStorage;
@@ -124,15 +135,34 @@ var helper = {
         sessionJson.removeItem(name);
     },
 
+    /**
+     * @description 对localStroage进行设置
+     * @param {String} name
+     * @param {String} value
+     * @returns
+     */
+
     localStroageSet: function (name, value) {
         if (!this.argCheck(name, value)) return;
         localStorage.setItem(name, value);
     },
 
+    /**
+     * @description 获得localStroageGet的值
+     * @param {String} name
+     * @param {String} value
+     * @returns
+     */
+
     localStroageGet: function (name) {
         if (!this.argCheck(name)) return window.localStorage;
         localStorage.getItem(name);
     },
+
+    /**
+     * @description 清除localStroage
+     * @param {String} name
+     */
 
     localStroageClear: function (name) {
         var localStroageJson = window.localStroage;
@@ -142,29 +172,58 @@ var helper = {
         localStroageJson.removeItem(name);
     },
     /************************* 关于URL *******************************/
+
+    /**
+     * @description 返回当前页面完整的URl
+     * @returns 页面的URL链接
+     */
+
     getUrl: function () { // 返回完整的url
         return window.location.href;
     },
+
+    /**
+     * @description 获得当前页面的hash
+     * @returns {String}
+     */
+
     getHash: function () {
         var href = window.location.href
         var index = href.indexOf('#')
         return index === -1 ? '' : href.slice(index + 1)
     },
+
+    /**
+     * @description 为url添加Hash
+     * @param {*} path
+     * @returns
+     */
+
     setHashUrl: function (path) { // path为hash
         var href = window.location.href
         var i = href.indexOf('#')
         var base = i >= 0 ? href.slice(0, i) : href
         return base + "#" + path
     },
+
     /************************* 时间戳 *******************************/
-    // 时间戳转换为天数 时间戳皆转为毫秒
+    /**
+     * @description 时间戳转换为天数 时间戳皆转为毫秒
+     * @param {String} timeStamp
+     * @returns {String}
+     */
     praseDays: function (timeStamp) {
         var tDayStamp = 1000 * 60 * 60 * 24;
         var tDiff = Math.floor(timeStamp / tDayStamp);
         return tDiff;
     },
 
-    // 获取时间戳
+    /**
+     * @description 获取时间戳
+     * @param {String} time
+     * @returns {String}
+     */
+
     getTimeStamp: function (time) {
         if (!time) return Math.round(new Date().getTime());
         else {
@@ -175,7 +234,13 @@ var helper = {
         }
     },
 
-    // 转换为相差的天数 向下取整
+    /**
+     * @description 转换为相差的天数 向下取整
+     * @param {String} sDate1
+     * @param {String} sDate2
+     * @returns
+     */
+
     transformDays: function (sDate1, sDate2) {
         sDate2 = sDate2 ? sDate2 : new Date();
         var _stamp1 = this.getTimeStamp(sDate1),
@@ -260,10 +325,10 @@ var helper = {
     /************************* 数组的方法 *******************************/
     // 数组深拷贝
     deepClone: function (obj) {
-        var type = typeof obj == "object";
-        if (!type) return obj;
+        if (typeof obj != "object") return obj;
         else {
             var newObj = new Object();
+            Object.prototype = obj.prototype; // 保持原型链的完整 
             for (var i in obj) {
                 newObj[i] = this.deepClone(obj[i]);
             }
