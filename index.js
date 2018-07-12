@@ -87,7 +87,7 @@ var helper = {
     * @description 检测 argruments 是否存在且不为零
     * @returns {boolean}
     */
-    argCheck: function () {
+    argrumentsCheck: function () {
         if (this.isEmptyObject(arguments)) return false;
         for (var i in arguments) {
             if (!arguments[i] && arguments[i] != 0) {
@@ -344,6 +344,44 @@ var helper = {
         return JSON.stringify(obj1) == JSON.stringify(obj2);
     },
 
+    /**
+    * @description 合并两个对象
+    * @param {Object} obj1
+    * @param {Object} obj2
+    * @returns {Object} 第一个对象被改变
+    */
+
+    baseMerge: function (obj1, obj2) {
+        if (typeof (obj2) != "object") return;
+        for (var i in obj2) {
+            if (typeof (obj2[i]) == "object") {
+                obj1[i] = obj1[i] || {};
+                obj1[i] = this.baseMerge(obj1[i], obj2[i])
+            } else {
+                obj1[i] = obj1[i] || "";
+                obj1[i] = obj2[i];
+            }
+        }
+        return obj1;
+    },
+
+    /**
+    * @description 合并多个参数
+    * @param {Object} obj1
+    * @param {Object} obj2
+    * @returns {Object} 第一个对象被改变
+    */
+
+    merge: function () {
+        let arg = Array.from(arguments),
+            _baseData = arg[0];
+        if (arg.length < 2) return arg;
+        for (let i = 1, l = arg.length; i < l; i++) {
+            _baseData = this.baseMerge(_baseData, arg[i]);
+        }
+        return _baseData;
+    },
+
     /************************* 数组的方法 *******************************/
 
     /**
@@ -400,6 +438,20 @@ var helper = {
         return arr.reduce((pre, cur) => {
             return pre + cur;
         });
+    },
+
+    /** 
+    * @description 随机生成一个指定长度的数组
+    * @param {Number}
+    * @returns {Array}
+    */
+
+    outOrder: function (num) {
+        var arr = new Array(num);
+        for (var i = 0; i < num; i++) {
+            arr[i] = Math.round((Math.random() * 1000));
+        }
+        return arr;
     },
 
     /**
