@@ -249,14 +249,33 @@ var helper = {
     },
 
     /************************* http请求 *******************************/
-    // http 请求的拦截器 暴露一个请求的内容给cb 一定要有返回值
+
+    /**
+     * @description http请求的拦截器
+     * @param {Function} cb
+     * http 请求的拦截器 暴露一个请求的内容给cb 一定要有返回值
+     */
     httpReqInterceptr: function (cb) {
         axios.interceptors.request.use(cb)
     },
-    // http 返回的拦截器 暴露一个返回的内容给cb 一定要有返回值
+
+    /**
+    * @description http请求返回的拦截器
+    * @param {Function} cb
+    * http 请求返回的拦截器 暴露一个请求的内容给cb 一定要有返回值
+    */
+
     httpReqInterceptr: function (cb) {
         axios.interceptors.response.use(cb)
     },
+
+    /**
+     * @description http通用请求方法
+     * @param {String} method
+     * @param {String} url
+     * @param {Object} data
+     * @param {Object} options
+     */
 
     http: function (method, url, data, options) {
         method = method || "GET";
@@ -275,55 +294,64 @@ var helper = {
         return axios(params);
     },
 
+    /**
+     * @description GET请求方法
+     * @param {String} url
+     * @param {Object} data
+     * @param {Object} opt
+     */
+
     httpGet: function (url, data, opt) {
         var method = 'get';
         return this.http(method, url, data, opt);
     },
+
+    /**
+    * @description POST请求方法
+    * @param {String} url
+    * @param {Object} data
+    * @param {Object} opt
+    */
 
     httpPost: function (url, data, opt) {
         var method = 'post';
         return this.http(method, url, data, opt);
     },
 
-
     /************************* 字符串方法 *******************************/
-    // 获得对应字符串的数量
+
+    /**
+     * @description 获得对应字符串的数量
+     * @param {String} str1 要统计的长字符串
+     * @param {String} str2 要统计的字符
+     * @returns {num}
+     */
+
     getCharNum: function (str1, str2) {
-        if (!this.argCheck(str1, str2)) return 0;
-        var count = 0,
-            reg = new RegExp(str2, "g");
-        str1.replace(reg, function () {
-            count++;
-        });
-        return count;
+        if (!this.argCheck(arguments)) return 0;
+        var reg = new RegExp(str2, "g");
+        return str1.mathch(reg).length;
     },
 
     /************************* 对象的方法 *******************************/
-    // 判断是否两个对象是否相等
+    /**
+     * @description 判断是否两个对象是否相等 值判断
+     * @param {Object} obj1
+     * @param {Object} obj2
+     * @returns
+     */
     isEql: function (obj1, obj2) {
-        var _arr1 = [],
-            _arr2 = [];
-        var isFlag = true;
-        if (obj1 === obj2) return true;
-        if (helper.getDataType(obj1) != "Object") return false;
-        if (Object.keys(obj1).length != Object.keys(obj2).length) return false;
-        for (var i in obj1) {
-            if (!obj2.hasOwnProperty(i)) return false;
-            if (helper.getDataType(obj1[i]) != "Object") {
-                if (obj2[i] != obj1[i]) return false;
-            } else {
-                _arr1.push(obj1[i]);
-                _arr2.push(obj2[i]);
-            }
-        }
-        _arr1.forEach(function (ele, index, arr) {
-            isFlag = isFlag && isEql(_arr1[index], _arr2[index]);
-        });
-        return isFlag;
+        return JSON.stringify(obj1) == JSON.stringify(obj2);
     },
 
     /************************* 数组的方法 *******************************/
-    // 数组深拷贝
+
+    /**
+     * @description 对象的深拷贝方法
+     * @param {any} obj
+     * @returns {Object}
+     */
+
     deepClone: function (obj) {
         if (typeof obj != "object") return obj;
         else {
@@ -335,11 +363,24 @@ var helper = {
             return newObj;
         }
     },
-    // 去除数组中重复的部分
+
+    /**
+     * @description 数组的去重 数组选项中没有对象
+     * @param {Array} arr
+     * @returns
+     */
+
     clearRepeate: function (arr) {
         return [...new Set(arr)];
     },
-    // 去除数组中重复的部分
+
+    /**
+     * @description 数组的去重 数组选项中为对象
+     * @param {Array} arr
+     * @param {String} id
+     * @returns {Array}
+     */
+
     clearRepeateObj: function (arr, id) {
         var obj = {};
         var newArr = arr.reduce((pre, cur, index, arr) => {
@@ -348,27 +389,59 @@ var helper = {
         }, [])
         return newArr;
     },
-    // 数组求和
+
+    /**
+     * @description 数字数组的求和
+     * @param {Array} arr
+     * @returns {Array}
+     */
+
     arrSum: function (arr) {
         return arr.reduce((pre, cur) => {
             return pre + cur;
         });
     },
-    // 比较两个数组中不同的地方
+
+    /**
+     * @description 比较两个数组中不同的地方
+     * @param {Array} a
+     * @param {Array} b
+     * @returns {Array}
+     */
+
     difference: function (a, b) {
         var s = new Set(a);
-        return b.filter((x) => {
-            !s.has(x);
-        })
+        return b.filter((x) => !s.has(x));
     },
     /************************* 排序的方法 *******************************/
-    // 交换数组元素
+
+    /**
+     * @description 交换数组元素
+     * @param {String} arr
+     * @param {Number} index1
+     * @param {Number} index2
+     */
+
     swap: function (arr, index1, index2) {
         var _tmp = arr[index1];
         arr[index1] = arr[index2];
         arr[index2] = _tmp;
+        return arr;
     },
-    // 快速排序
+
+    /**
+     * @description 交换数组元素 ES6交换方法
+     * @param {String} arr
+     * @param {Number} index1
+     * @param {Number} index2
+     */
+
+    swap1: function (arr, index1, index2) {
+        [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
+        return arr;
+    },
+
+    // 快速排序 阮一峰版快排 已被证明效率低下
     quickSort: function (arr, left, right) {
         if (arr.length < 2) return arr;
         var _mid = arr.splice(0, 1)[0];
@@ -379,6 +452,7 @@ var helper = {
         });
         return this.arrSort1(left, [], []).concat([_mid], this.arrSort1(right, [], []));
     },
+
     // 冒泡排序
     bubbleSort: function (arr) {
         for (var i = 0, len = arr.length; i < len; i++) {
@@ -387,6 +461,7 @@ var helper = {
             }
         }
     },
+
     // 选择排序
     selectSort: function (arr) {
         var _cursor = "";
@@ -398,13 +473,26 @@ var helper = {
             this.swap(arr, _cursor, len - i - 1);
         }
     },
+
+
     /************************* Window的方法 *******************************/
-    scrollTop: function () { // 获取和设置距离顶部的距离
+
+    /**
+     * @description 获取和设置距离顶部的距离
+     * @returns 当前滚动条的位置 
+     */
+
+    scrollTop: function () {
         var c = document.documentElement.scrollTop || document.body.scrollTop;
         if (!this.argCheck(arguments)) return c;
         var _arg = arguments[0];
         if (_arg && this.isNumber(_arg)) document.documentElement.scrollTop = document.body.scrollTop = _arg;
     },
+
+    /**
+     * @description 滚动到顶部
+     */
+
     scrollToTop: function () { // 当前位置滑动到顶部
         var c = document.documentElement.scrollTop || document.body.scrollTop;
         if (c > 0) {
@@ -415,6 +503,11 @@ var helper = {
             window.scrollTo(0, c - c / 16);
         }
     },
+
+    /**
+     * @description 滚动到任意高度
+     */
+
     scrollToHeight: function (height) { // 当前位置滑动到顶部
         var c = document.documentElement.scrollTop || document.body.scrollTop,
             flag = c > height ? true : false, // "up" : "down"
@@ -427,6 +520,7 @@ var helper = {
             else window.scrollTo(0, c + 20);
         }
     }
+
 };
 
 module.exports = helper;
