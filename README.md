@@ -1,8 +1,3 @@
-<link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/solarized_dark.min.css">
-<script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
-
 # ljyTools
 <p style="border-bottom: 1px solid #eaecef"></p>
 
