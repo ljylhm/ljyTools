@@ -87,7 +87,7 @@ var helper = {
     * @description 检测 argruments 是否存在且不为零
     * @returns {boolean}
     */
-    argCheck: function () {
+    argrumentsCheck: function () {
         if (this.isEmptyObject(arguments)) return false;
         for (var i in arguments) {
             if (!arguments[i] && arguments[i] != 0) {
@@ -401,6 +401,20 @@ var helper = {
             return pre + cur;
         });
     },
+
+    /** 
+    * @description 随机生成一个指定长度的数组
+    * @param {Number}
+    * @returns {Array}
+    */
+
+    outOrder: function (num) {
+        var arr = new Array(num);
+        for (var i = 0; i < num; i++) {
+            arr[i] = Math.round((Math.random() * 1000));
+        }
+        return arr;
+    }
 
     /**
      * @description 比较两个数组中不同的地方
