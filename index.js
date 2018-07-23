@@ -5,7 +5,7 @@ var name = "Ljy";
 var helper = {
 
     /* 版本号 */
-    version: "0.0.2",
+    version: "0.0.3",
     /************************* 数据检测类 *******************************/
 
     /**
@@ -453,6 +453,20 @@ var helper = {
         }
         return arr;
     },
+
+    /** 
+    * @description 随机生成一个指定长度的数组
+    * @param {Number}
+    * @returns {Array}
+    */
+
+    outOrder: function (num) {
+        var arr = new Array(num);
+        for (var i = 0; i < num; i++) {
+            arr[i] = Math.round((Math.random() * 1000));
+        }
+        return arr;
+    }
 
     /**
      * @description 比较两个数组中不同的地方
